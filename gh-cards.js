@@ -14,12 +14,12 @@ function injectStylesheet(url) {
 }
 
 let style = `
-h4.gh {
+.gh h4 {
   padding: 0;
   margin: 0;
 }
 
-a.gh, a:visited.gh {
+.gh a, .gh a:visited {
   text-decoration: none;
   color: black;
 }
@@ -59,7 +59,7 @@ clip-path: polygon(100% 0, 100% 95%, 50% 100%, 0% 95%, 0 0);
   padding: 16px;
 }
 
-p.gh {
+.gh p {
   line-height: 1.6;
 }
 `;
@@ -67,8 +67,7 @@ p.gh {
 injectStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 injectStyle(style);
 
-for(let card_index = 0; card_index < cards.length; card_index++) {
-  let card = cards[card_index];
+for(let card of cards) {
   let repo = card.getAttribute('repo');
   let url = 'https://api.github.com/repos/' + repo;
   
