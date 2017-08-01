@@ -61,6 +61,7 @@ clip-path: polygon(100% 0, 100% 95%, 50% 100%, 0% 95%, 0 0);
 
 .gh p {
   line-height: 1.6;
+  margin: 1em 0;
 }
 `;
 
@@ -68,7 +69,7 @@ injectStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-aw
 injectStyle(style);
 
 for(let card of cards) {
-  let repo = card.getAttribute('repo');
+  let repo = card.getAttribute('data-repo');
   let url = 'https://api.github.com/repos/' + repo;
   
   fetch(url, {method: 'GET'}).then(resp => {
@@ -76,11 +77,10 @@ for(let card of cards) {
   }).then(json => {
     
     card.innerHTML = `
-      <img class="gh" src="${json.owner.avatar_url}">
+      <img class="gh" src="${card.getAttribute('data-image') || json.owner.avatar_url}">
       <div class="gh container">
         <h4 class="gh">
           <a class="gh" href="${json.html_url}">
-            <i class="fa fa-fw fa-github" aria-hidden="true"></i>
             ${json.full_name}
           </a>
         </h4>
