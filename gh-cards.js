@@ -108,11 +108,13 @@ for(let card of cards) {
         method: "GET",
         headers: headers
       }).then(resp => resp.json()).then(json => {
-        card.innerHTML += "<p></p>";
         var tags = json.names;
-        for(var i in tags) {
-          var tag = tags[i];
-          card.innerHTML += `<span class="gh gh-topic">${tag}</span>`
+        if(tags.length > 0) {
+          card.innerHTML += "<p></p>";
+          for(var i in tags) {
+            var tag = tags[i];
+            card.innerHTML += `<span class="gh gh-topic">${tag}</span>`
+          }
         }
         card.innerHTML += "\n</div>"
       });
