@@ -1,4 +1,5 @@
 let cards = document.getElementsByClassName('gh-card');
+let showTags = true;
 
 function injectStyle(str) {
     let node = document.createElement('style');
@@ -63,6 +64,14 @@ clip-path: polygon(100% 0, 100% 95%, 50% 100%, 0% 95%, 0 0);
   line-height: 1.6;
   margin: 1em 0;
 }
+
+.gh-topic {
+  border-radius: 5px;
+  padding: 7px;
+  border: solid white 2px;
+  color: white;
+  margin: 5px;
+}
 `;
 
 injectStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
@@ -71,11 +80,11 @@ injectStyle(style);
 for(let card of cards) {
   let repo = card.getAttribute('data-repo');
   let url = 'https://api.github.com/repos/' + repo;
-  
+
   fetch(url, {method: 'GET'}).then(resp => {
     return resp.json();
   }).then(json => {
-    
+
     card.innerHTML = `
       <img class="gh" src="${card.getAttribute('data-image') || json.owner.avatar_url}">
       <div class="gh container">
@@ -90,9 +99,25 @@ for(let card of cards) {
         <a class="gh" href="${json.html_url}/stargazers">
           <i class="fa fa-fw fa-star" aria-hidden="true"></i> ${json.stargazers_count}
         </a>
-      </div>
     `;
-    
+    if(showTags) {
+      var headers = new Headers({
+        Accept: "application/vnd.github.mercy-preview+json"
+      });
+      fetch("https://api.github.com/repos/" + repo + "/topics", {
+        method: "GET",
+        headers: headers
+      }).then(resp => resp.json()).then(json => {
+        card.innerHTML += "<p></p>";
+        var tags = json.names;
+        for(var i in tags) {
+          var tag = tags[i];
+          card.innerHTML += `<span class="gh gh-topic">${tag}</span>`
+        }
+        card.innerHTML += "\n</div>"
+      });
+    } else card.innerHTML += "\n</div>"
+
   }).catch(err => {
     console.log(err);
   });
