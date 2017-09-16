@@ -68,8 +68,7 @@ clip-path: polygon(100% 0, 100% 95%, 50% 100%, 0% 95%, 0 0);
 .gh-topic {
   border-radius: 5px;
   padding: 7px;
-  border: solid white 2px;
-  color: white;
+  border: solid black 1px;
   margin: 5px;
 }
 `;
@@ -84,9 +83,7 @@ for(let card of cards) {
   fetch(url, {method: 'GET'}).then(resp => {
     return resp.json();
   }).then(json => {
-
-    card.innerHTML = `
-      <img class="gh" src="${card.getAttribute('data-image') || json.owner.avatar_url}">
+    card.innerHTML == `
       <div class="gh container">
         <h4 class="gh">
           <a class="gh" href="${json.html_url}">
@@ -110,11 +107,12 @@ for(let card of cards) {
       }).then(resp => resp.json()).then(json => {
         var tags = json.names;
         if(tags.length > 0) {
-          card.innerHTML += "<p></p>";
+          card.innerHTML += "<p>"
           for(var i in tags) {
             var tag = tags[i];
             card.innerHTML += `<span class="gh gh-topic">${tag}</span>`
           }
+          card.innerHTML += "</p><br/>"
         }
         card.innerHTML += "\n</div>"
       });
