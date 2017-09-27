@@ -83,7 +83,7 @@ for(let card of cards) {
   fetch(url, {method: 'GET'}).then(resp => {
     return resp.json();
   }).then(json => {
-    card.innerHTML == `
+    card.innerHTML = `
     <img class="gh" src="${card.getAttribute('data-image') || json.owner.avatar_url}">
       <div class="gh container">
         <h4 class="gh">
@@ -92,6 +92,7 @@ for(let card of cards) {
           </a>
         </h4>
         <p class="gh">${json.description}</p>
+        <a class="gh" href="${json.homepage}"></a>
         <a class="gh" href="${json.html_url}/network">
           <i class="fa fa-fw fa-code-fork" aria-hidden="true"></i> ${json.forks_count}
         <a class="gh" href="${json.html_url}/stargazers">
